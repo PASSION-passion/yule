@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义输出生成器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+        #customImage, #customText {
+            margin-top: 20px;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-size: 2em;
+            border: 2px solid #ddd;
+            background-color: #f3f3f3;
+            display: none; /* 初始隐藏 */
+        }
+        #customImage img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>自定义输出生成器</h1>
+    <p>请输入你的名字：</p>
+    <input type="text" id="nameInput" placeholder="请输入名字">
+    <p>选择输出类型：</p>
+    <select id="outputType">
+        <option value="text">字符</option>
+        <option value="image">图片</option>
+    </select>
+    <button onclick="generateOutput()">生成</button>
+
+    <div id="output"></div>
+    <div id="customText"></div>
+    <div id="customImage">
+        <!-- 在这里可以自定义图片地址 -->
+        <img id="outputImage" src="" alt="自定义图片">
+    </div>
+
+    <script>
+        function generateOutput() {
+            const name = document.getElementById("nameInput").value;
+            const outputType = document.getElementById("outputType").value;
+            const customTextDiv = document.getElementById("customText");
+            const customImageDiv = document.getElementById("customImage");
+            const outputImage = document.getElementById("outputImage");
+            
+            // 验证输入是否为空
+            if (name.trim() === "") {
+                document.getElementById("output").innerText = "请输入有效的名字！";
+                customTextDiv.style.display = "none";
+                customImageDiv.style.display = "none";
+                return;
+            }
+
+            // 清空输出提示
+            document.getElementById("output").innerText = "";
+
+            // 根据选择的类型显示输出
+            if (outputType === "text") {
+                // 显示文字
+                customTextDiv.innerText = `你好，${name}！`;
+                customTextDiv.style.display = "flex";
+                customImageDiv.style.display = "none";  // 隐藏图片
+            } else if (outputType === "image") {
+                // 显示图片
+                outputImage.src = "https://via.placeholder.com/300.png?text=" + encodeURIComponent(name);
+                customImageDiv.style.display = "flex";
+                customTextDiv.style.display = "none";  // 隐藏文字
+            }
+        }
+    </script>
+</body>
+</html>
